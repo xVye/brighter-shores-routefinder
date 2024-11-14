@@ -1,6 +1,7 @@
 import About from "./About.jsx";
 import Configuration from "./Configuration.jsx";
 import BountySelection from "./BountySelection.jsx";
+import BountyPlan from "./BountyPlan.jsx";
 
 export const categories = ["Settings", "Bounties"];
 
@@ -23,9 +24,9 @@ const pages = [
     category: categories[1],
   },
   {
-    title: "Calculate Best Route",
-    path: "/calculate-best-route",
-    component: null,
+    title: "Bounty Plan",
+    path: "/bounty-plan",
+    component: BountyPlan,
     category: categories[1],
   },
 ];
