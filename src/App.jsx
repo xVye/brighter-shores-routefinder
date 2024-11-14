@@ -1,48 +1,70 @@
-import {useEffect, useState} from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import { HashRouter, Route, Routes } from "react-router-dom";
+import Header from "./components/Header.jsx";
+import Navigation from "./components/Navigation.jsx";
+import pages from "./pages";
 
-function App() {
-    const [count, setCount] = useState(0)
+const App = () => {
+  const [mobileMenuShown, setMobileMenuShown] = useState(false);
 
-    useEffect(() => {
-        const worker = new Worker(new URL('./algorithm/worker.js', import.meta.url), { type: 'module' })
-        worker.postMessage({
-            currentDeliveries: ['Carrots', 'Meat Wrap', 'Soap', 'Clockwork Sheep', 'Ribs', 'Plates'],
-            availableDeliveries: ['Meat Wrap', 'Carrots', 'Clockwork Sheep', 'Soap', 'Ribs', 'Pumpkin']
-        });
+  return (
+    <HashRouter>
+      <Header setMobileMenuShown={setMobileMenuShown} />
+      <div className="container mx-auto max-w-[1200px] flex px-3">
+        <Navigation
+          mobileMenuShown={mobileMenuShown}
+          setMobileMenuShown={setMobileMenuShown}
+        />
+        <Routes>
+          {pages.map((page) => (
+            <Route
+              key={page.path}
+              path={page.path}
+              element={React.createElement(page.component)}
+            />
+          ))}
+        </Routes>
+      </div>
+    </HashRouter>
+  );
+};
 
-        worker.onmessage = (event) => {
-            const { deliveries, actions, distance } = event.data;
-            console.log(`Best route: ${deliveries} with ${actions.length} actions for a total distance of ${distance}`);
-        }
-    }, [])
+export default App;
 
-    return (
-        <>
-            <div>
-                <a href="https://vite.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo"/>
-                </a>
-                <a href="https://react.dev" target="_blank">
-                    <img src={reactLogo} className="logo react" alt="React logo"/>
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.jsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
-        </>
-    )
-}
+// function App() {
+//   useEffect(() => {
+//     const worker = new Worker(
+//       new URL("./algorithm/worker.js", import.meta.url),
+//       { type: "module" },
+//     );
+//     worker.postMessage({
+//       currentDeliveries: [
+//         "Carrots",
+//         "Meat Wrap",
+//         "Soap",
+//         "Clockwork Sheep",
+//         "Ribs",
+//         "Plates",
+//       ],
+//       availableDeliveries: [
+//         "Meat Wrap",
+//         "Carrots",
+//         "Clockwork Sheep",
+//         "Soap",
+//         "Ribs",
+//         "Pumpkin",
+//       ],
+//     });
+//
+//     worker.onmessage = (event) => {
+//       const { deliveries, actions, distance } = event.data;
+//       console.log(
+//         `Best route: ${deliveries} with ${actions.length} actions for a total distance of ${distance}`,
+//       );
+//     };
+//   }, []);
+//
+//   return <div>hi</div>;
+// }
 
-export default App
+// export default App;
