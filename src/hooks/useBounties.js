@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from "react";
 
 const defaultBountyState = Object.keys(deliveryData).map((key) => ({
   name: key,
-  image: `https://brightershoreswiki.org/images/${key.replace(" ", "_")}.png`,
   selected: false,
 }));
 

@@ -1,7 +1,9 @@
 import Page from "../components/Page.jsx";
 import Paragraph from "../components/Paragraph.jsx";
+import gpsv2 from "../algorithm/gpsv2.js";
 
 const About = () => {
+  console.log(gpsv2.distance(102, 15));
   return (
     <Page
       title="Bounty Planner"

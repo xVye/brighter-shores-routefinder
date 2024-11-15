@@ -156,6 +156,12 @@ class GPS {
     this.#addUndirectedEdge("North Player Market", "West Player Market");
     this.#addUndirectedEdge("South Player Market", "West Player Market");
     this.#addUndirectedEdge("West Player Market", "Outer Market");
+    // this.#addUndirectedEdge("West Player Market", "Dilapidated Warehouse");
+    // this.#addUndirectedEdge("Dilapidated Warehouse", "Slant Street");
+    this.#addUndirectedEdge("West Player Market", "Slant Street Cart House");
+    this.#addUndirectedEdge("Slant Street Cart House", "Bogg's Antiques");
+    this.#addUndirectedEdge("Slant Street", "Peacock Road South");
+    this.#addUndirectedEdge("Slant Street", "Slant Street Cart House");
     this.#addUndirectedEdge("Outer Market", "Thadwick Square");
     this.#addUndirectedEdge("Thadwick Square", "Peacock Road South");
     this.#addUndirectedEdge("Peacock Road South", "Peacock Road Central");

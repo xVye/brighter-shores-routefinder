@@ -47,6 +47,10 @@ export const deliveryData = {
     buyLocation: "Meggrit's Market",
     sellLocation: "Lord's Road East",
   },
+  "Tin Pocket Watch": {
+    buyLocation: "Meggrit's Market",
+    sellLocation: "Bogg's Antiques",
+  },
 };
 
 export const DeliveryStatus = {

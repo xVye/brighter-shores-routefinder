@@ -8,7 +8,7 @@ const Bounty = ({ type, selected, onClick, size = "normal" }) => {
           <img
             width={25}
             height={25}
-            src={`https://brightershoreswiki.org/images/${type.replace(" ", "_")}.png`}
+            src={`https://brightershoreswiki.org/images/${type.replace(/ /g, "_")}.png`}
             alt={type}
             className="rounded-md"
           />
@@ -27,7 +27,7 @@ const Bounty = ({ type, selected, onClick, size = "normal" }) => {
         <img
           width={50}
           height={50}
-          src={`https://brightershoreswiki.org/images/${type.replace(" ", "_")}.png`}
+          src={`https://brightershoreswiki.org/images/${type.replace(/ /g, "_")}.png`}
           alt="carrots"
           className="rounded-md"
         />
