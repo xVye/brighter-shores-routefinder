@@ -113,7 +113,12 @@ class Pathfinder {
           needToAddTravelSteps = false;
         }
 
-        actions.push(`Sell ${delivery} at ${currentLocation} (${distance})`);
+        actions.push({
+          type: "sell",
+          item: delivery,
+          location: currentLocation,
+          distance,
+        });
         deliveryStates[i] = DeliveryStatus.COMPLETED;
       }
 
@@ -137,7 +142,12 @@ class Pathfinder {
           needToAddTravelSteps = false;
         }
 
-        actions.push(`Buy ${delivery} at ${currentLocation} (${distance})`);
+        actions.push({
+          type: "buy",
+          item: delivery,
+          location: currentLocation,
+          distance,
+        });
         deliveryStates[i] = DeliveryStatus.IN_PROGRESS;
       }
 
@@ -199,9 +209,15 @@ class Pathfinder {
 
     for (let i = 1; i < path.length - 1; i++) {
       if (this.includeTeleportSteps && this.#teleportZones.has(path[i])) {
-        actions.push(`Teleport to ${path[i]}`);
+        actions.push({
+          type: "teleport",
+          location: path[i],
+        });
       } else if (this.includeWalkingSteps) {
-        actions.push(`Walk to ${path[i]}`);
+        actions.push({
+          type: "walk",
+          location: path[i],
+        });
       }
     }
   }

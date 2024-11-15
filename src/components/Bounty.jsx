@@ -3,7 +3,7 @@ import CheckCircle from "../icons/CheckCircle.jsx";
 const Bounty = ({ type, selected, onClick, size = "normal" }) => {
   if (size === "small") {
     return (
-      <div className="w-full rounded" onClick={onClick}>
+      <div className="inline-block rounded px-1.5" onClick={onClick}>
         <div className="flex items-center">
           <img
             width={25}
@@ -12,7 +12,7 @@ const Bounty = ({ type, selected, onClick, size = "normal" }) => {
             alt={type}
             className="rounded-md"
           />
-          <div className="ml-1 text-sm">{type}</div>
+          <div className="ml-1">{type}</div>
         </div>
       </div>
     );

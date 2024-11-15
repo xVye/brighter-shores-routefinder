@@ -43,6 +43,10 @@ export const deliveryData = {
     buyLocation: "Goose Inn Kitchen",
     sellLocation: "Meggrit's Market",
   },
+  Bananas: {
+    buyLocation: "Meggrit's Market",
+    sellLocation: "Lord's Road East",
+  },
 };
 
 export const DeliveryStatus = {

@@ -74,20 +74,66 @@ const BountyPlan = () => {
           </div>
         </>
       ) : null}
-      {data.deliveries && (
+      {data.deliveries?.length ? (
         <>
           <Subheading>Route</Subheading>
           <Paragraph>
             After abandoning and/or picking up the bounties mentioned above,
             take the following route to complete them in the most efficient way:
           </Paragraph>
-          <div className="grid grid-cols-6 gap-0">
-            {data.deliveries.map((bounty) => (
-              <Bounty key={bounty} type={bounty} size="small" />
-            ))}
-          </div>
+          {/*<div className="grid grid-cols-6 gap-0">*/}
+          {/*  {data.deliveries.map((bounty) => (*/}
+          {/*    <Bounty key={bounty} type={bounty} size="small" />*/}
+          {/*  ))}*/}
+          {/*</div>*/}
         </>
-      )}
+      ) : null}
+
+      {data.actions?.length ? (
+        <div className="relative overflow-x-auto mb-7">
+          <table className="table-fixed w-full text-left rtl:text-right">
+            <thead className="text-gray-900 uppercase">
+              <tr className="border-b border-gray-100">
+                <th scope="col" className="py-3">
+                  Action
+                </th>
+                <th scope="col" className="py-3">
+                  Item
+                </th>
+                <th scope="col" className="py-3">
+                  Location
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.actions.map((action, index) => (
+                <tr
+                  key={index}
+                  className="border-b border-gray-100 last:border-none"
+                >
+                  <td className="py-3 capitalize">{action.type}</td>
+                  <td className="py-3">
+                    {action.item ? (
+                      <Bounty type={action.item} size="small" />
+                    ) : (
+                      "-"
+                    )}
+                  </td>
+                  <td className="py-3">{action.location}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : null}
+
+      {data.actions ? (
+        <Paragraph>
+          After completing the route, you can navigate back to the previous page
+          using the button below or the navigation menu and select more bounties
+          to complete.
+        </Paragraph>
+      ) : null}
     </Page>
   );
 };
