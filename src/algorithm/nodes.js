@@ -227,7 +227,7 @@ export const edges = [
 
   { nodes: [31, 32], weight: 3.08 },
   { nodes: [31, 34], weight: 3.2 },
-  { nodes: [31, 101], weight: 2.44 },
+  { nodes: [31, 104], weight: 2.44 },
 
   { nodes: [32, 34], weight: 3.71 },
   { nodes: [32, 33], weight: 4.07, investigator: true },

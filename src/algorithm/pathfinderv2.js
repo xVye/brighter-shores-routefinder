@@ -215,6 +215,9 @@ class Pathfinderv2 {
       return;
     }
 
+    const distance =
+      actions.length > 0 ? actions[actions.length - 1].distance : 0;
+
     for (let i = 1; i < path.length - 1; i++) {
       if (
         this.includeTeleportSteps &&
@@ -223,6 +226,7 @@ class Pathfinderv2 {
         actions.push({
           type: "teleport",
           location: portals.CRENOPOLIS_MARKET.name,
+          distance: distance + 8, // TODO: magic number, replace with a constant
         });
       } else if (
         this.includeTeleportSteps &&
@@ -231,6 +235,7 @@ class Pathfinderv2 {
         actions.push({
           type: "teleport",
           location: portals.CRENOPOLIS_OUTSKIRTS.name,
+          distance: distance + 8, // TODO: magic number, replace with a constant
         });
       } else if (this.includeWalkingSteps) {
         actions.push({

@@ -9,6 +9,22 @@ const worker = new Worker(new URL("../algorithm/worker.js", import.meta.url), {
   type: "module",
 });
 
+const formatTime = (input) => {
+  let seconds = parseInt(input, 10);
+  if (isNaN(seconds)) {
+    return input; // In case the input is not a valid number.
+  }
+
+  let minutes = Math.floor(seconds / 60);
+  seconds = seconds % 60;
+
+  if (minutes > 0) {
+    return `${minutes}m${seconds}s`;
+  } else {
+    return `${seconds}s`;
+  }
+};
+
 const BountyPlan = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({});
@@ -97,8 +113,11 @@ const BountyPlan = () => {
                 <th scope="col" className="py-3">
                   Item
                 </th>
-                <th scope="col" className="py-3">
+                <th scope="col" className="py-3 text-right">
                   Location
+                </th>
+                <th scope="col" className="py-3 text-right">
+                  Est. Time
                 </th>
               </tr>
             </thead>
@@ -116,7 +135,10 @@ const BountyPlan = () => {
                       "-"
                     )}
                   </td>
-                  <td className="py-3">{action.location}</td>
+                  <td className="py-3 text-right">{action.location}</td>
+                  <td className="py-3 text-right">
+                    {formatTime(Math.round(action.distance))}
+                  </td>
                 </tr>
               ))}
             </tbody>
