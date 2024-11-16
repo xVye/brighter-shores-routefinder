@@ -1,3 +1,84 @@
+import { markets } from "./nodes.js";
+
+export const bounties = {
+  CARROTS: {
+    name: "Carrots",
+    seller: markets.GREENGROCERS,
+    buyer: markets.TOY_STALL,
+  },
+  SOAP: {
+    name: "Soap",
+    seller: markets.SOAP_SHOP,
+    buyer: markets.BUTCHERS_STALL,
+  },
+  RIBS: {
+    name: "Ribs",
+    seller: markets.BUTCHERS_STALL,
+    buyer: markets.SOUVENIR_STALL,
+  },
+  MEAT_WRAP: {
+    name: "Meat Wrap",
+    seller: markets.HALLIGS_STREET_FOOD,
+    buyer: markets.CHEESE_SHOP,
+  },
+  BEEF_JOINT: {
+    name: "Beef Joint",
+    seller: markets.HENDERSONS_MEAT,
+    buyer: markets.HALLIGS_STREET_FOOD,
+  },
+  CLOCKWORK_SHEEP: {
+    name: "Clockwork Sheep",
+    seller: markets.PENNYS_CLOCKWORK,
+    buyer: markets.CLOCK_STALL,
+  },
+  PORCELAIN_DOLL: {
+    name: "Porcelain Doll",
+    seller: markets.TOY_STALL,
+    buyer: markets.FORTUNEHOLD_FARM,
+  },
+  PLATES: {
+    name: "Plates",
+    seller: markets.HERMARS_HOMEWARE,
+    buyer: markets.JENNALERS_WINES,
+  },
+  PIN_BADGE: {
+    name: "Pin Badge",
+    seller: markets.SOUVENIR_STALL,
+    buyer: markets.VICTOR_T_CYCLOPS,
+  },
+  PUMPKIN: {
+    name: "Pumpkin",
+    seller: markets.FORTUNEHOLD_FARM,
+    buyer: markets.VASE_STALL,
+  },
+  PIZZA: {
+    name: "Pizza",
+    seller: markets.CHEF,
+    buyer: markets.FRANCESCAS_FRUIT_STALL,
+  },
+  BANANAS: {
+    name: "Bananas",
+    seller: markets.FRANCESCAS_FRUIT_STALL,
+    buyer: markets.PENNYS_CLOCKWORK,
+  },
+  TIN_POCKET_WATCH: {
+    name: "Tin Pocket Watch",
+    seller: markets.SNILCHS_WATCHES,
+    buyer: markets.BOGGS_ANTIQUES,
+  },
+  HOMESPUN_CLOTH: {
+    name: "Homespun Cloth",
+    seller: markets.TEXTILES_STALL,
+    buyer: markets.CLOCK_STALL,
+  },
+};
+
+export const BountyStatus = {
+  NOT_STARTED: 0, // The item still needs to be purchased
+  IN_PROGRESS: 1, // The item has been purchased but not yet sold
+  COMPLETED: 2, // The item has been purchased and sold
+};
+
 export const deliveryData = {
   Carrots: {
     buyLocation: "Greengrocers",

@@ -27,6 +27,10 @@ export const portals = {
  * These nodes represent markets, and can be referenced in the `complete-brighter-shores-world-map.xcf` file (GIMP file).
  */
 export const markets = {
+  VICTOR_T_CYCLOPS: {
+    name: "Victor T Cyclops",
+    node: 8,
+  },
   FORTUNEHOLD_FARM: {
     name: "Fortunehold Farm",
     node: 13,
@@ -102,6 +106,10 @@ export const markets = {
   HENDERSONS_MEAT: {
     name: "Henderson's Meat",
     node: 83,
+  },
+  CHEESE_SHOP: {
+    name: "Cheese Shop",
+    node: 84,
   },
   VASE_STALL: {
     name: "Vase Stall",

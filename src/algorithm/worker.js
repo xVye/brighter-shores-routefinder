@@ -1,4 +1,5 @@
-import pathfinder from "./pathfinder.js";
+import pathfinderv2 from "./pathfinderv2.js";
+import { bounties as bountyData } from "./bounties.js";
 
 /**
  * Receives a message from the main thread containing the current and available deliveries
@@ -6,21 +7,23 @@ import pathfinder from "./pathfinder.js";
  * @param event The message event containing the current and available deliveries
  */
 onmessage = (event) => {
-  const { currentDeliveries, availableDeliveries } = event.data;
+  const { currentBounties, availableBounties } = event.data;
 
-  const { deliveries, actions, distance } = pathfinder.findBestDeliveries(
-    currentDeliveries,
-    availableDeliveries,
+  const { bounties, actions, distance } = pathfinderv2.findBestBounties(
+    currentBounties.map((d) => d.toUpperCase().replaceAll(/ /g, "_")),
+    availableBounties.map((d) => d.toUpperCase().replaceAll(/ /g, "_")),
   );
 
-  const abandon = currentDeliveries.filter((d) => !deliveries.includes(d));
+  const bountyNames = bounties.map((b) => bountyData[b].name);
+
+  const abandon = currentBounties.filter((d) => !bountyNames.includes(d));
 
   // pickup any deliveries that were not in current
   // for each delivery in deliveries, if it is not in currentDeliveries, add it to pickup
 
   let pickup = [];
-  let copy = currentDeliveries;
-  deliveries.forEach((d) => {
+  let copy = currentBounties;
+  bountyNames.forEach((d) => {
     if (copy.includes(d)) {
       copy = copy.filter((c) => c !== d);
     } else {
@@ -28,10 +31,12 @@ onmessage = (event) => {
     }
   });
 
+  console.log(actions);
+
   postMessage({
     abandon,
     pickup,
-    deliveries,
+    bountyNames,
     actions,
     distance,
   });

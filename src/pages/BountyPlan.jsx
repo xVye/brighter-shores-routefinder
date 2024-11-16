@@ -35,13 +35,10 @@ const BountyPlan = () => {
     setData({});
     setLoading(true);
     worker.postMessage({
-      currentDeliveries: selectedBounties,
-      availableDeliveries: selectedAvailableBounties,
+      currentBounties: selectedBounties,
+      availableBounties: selectedAvailableBounties,
     });
   }, [selectedBounties, selectedAvailableBounties]);
-
-  console.log(data);
-  console.log(selectedBounties, selectedAvailableBounties);
 
   return (
     <Page title="Bounty Plan" meta="The best route based on your selections.">

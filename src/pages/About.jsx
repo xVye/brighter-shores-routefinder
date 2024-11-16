@@ -1,9 +1,31 @@
 import Page from "../components/Page.jsx";
 import Paragraph from "../components/Paragraph.jsx";
-import gpsv2 from "../algorithm/gpsv2.js";
+
+import pathfinderv2 from "../algorithm/pathfinderv2.js";
+import { bounties } from "../algorithm/bounties.js";
+import pathfinder from "../algorithm/pathfinder.js";
 
 const About = () => {
-  console.log(gpsv2.distance(102, 15));
+  console.log(
+    pathfinder.findBestRoute([
+      bounties.BANANAS.name,
+      bounties.BANANAS.name,
+      bounties.RIBS.name,
+      bounties.RIBS.name,
+      bounties.BEEF_JOINT.name,
+      bounties.CARROTS.name,
+    ]),
+  );
+  console.log(
+    pathfinderv2.findBestRoute([
+      bounties.BANANAS,
+      bounties.BANANAS,
+      bounties.RIBS,
+      bounties.RIBS,
+      bounties.BEEF_JOINT,
+      bounties.CARROTS,
+    ]),
+  );
   return (
     <Page
       title="Bounty Planner"
