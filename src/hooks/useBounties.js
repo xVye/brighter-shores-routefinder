@@ -1,8 +1,8 @@
-import { deliveryData } from "../algorithm/bounties.js";
+import { bounties } from "../algorithm/bounties.js";
 import { useEffect, useMemo, useState } from "react";
 
-const defaultBountyState = Object.keys(deliveryData).map((key) => ({
-  name: key,
+const defaultBountyState = Object.keys(bounties).map((key) => ({
+  name: bounties[key].name,
   selected: false,
 }));
 

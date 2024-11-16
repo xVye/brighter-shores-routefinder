@@ -173,6 +173,9 @@ export const edges = [
   { nodes: [11, 12], weight: 7.9 },
 
   { nodes: [12, 13], weight: 5.83 },
+  { nodes: [12, 106], weight: 5.68 },
+
+  { nodes: [13, 106], weight: 7.35 },
 
   { nodes: [14, 15], weight: 9.84, directed: true },
 
@@ -373,8 +376,12 @@ export const edges = [
   { nodes: [75, 76], weight: 3.95 },
   { nodes: [75, 77], weight: 4.55 },
   { nodes: [75, 78], weight: 4.48 },
+  { nodes: [75, 105], weight: 8.47, directed: true },
 
   { nodes: [76, 77], weight: 2.52 },
+  { nodes: [76, 105], weight: 5.65, directed: true },
+
+  { nodes: [77, 105], weight: 3.43, directed: true },
 
   { nodes: [78, 79], weight: 6.15 },
 
@@ -422,4 +429,11 @@ export const edges = [
 
   { nodes: [100, 102], weight: 1.6 },
   { nodes: [100, 103], weight: 8.23 },
+
+  { nodes: [105, 75], weight: 5.16, directed: true },
+  { nodes: [105, 76], weight: 2.42, directed: true },
+  { nodes: [105, 77], weight: 0.1, directed: true },
+  { nodes: [105, 106], weight: 6.34, directed: true },
+
+  { nodes: [106, 105], weight: 9.6, directed: true },
 ];
