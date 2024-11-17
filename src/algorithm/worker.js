@@ -1,4 +1,4 @@
-import pathfinderv2 from "./pathfinderv2.js";
+import pathfinder from "./pathfinder.js";
 import { bounties as bountyData } from "./bounties.js";
 
 /**
@@ -9,7 +9,7 @@ import { bounties as bountyData } from "./bounties.js";
 onmessage = (event) => {
   const { currentBounties, availableBounties } = event.data;
 
-  const { bounties, actions, distance } = pathfinderv2.findBestBounties(
+  const { bounties, actions, distance } = pathfinder.findBestBounties(
     currentBounties.map((d) => d.toUpperCase().replaceAll(/ /g, "_")),
     availableBounties.map((d) => d.toUpperCase().replaceAll(/ /g, "_")),
   );
@@ -17,9 +17,6 @@ onmessage = (event) => {
   const bountyNames = bounties.map((b) => bountyData[b].name);
 
   const abandon = currentBounties.filter((d) => !bountyNames.includes(d));
-
-  // pickup any deliveries that were not in current
-  // for each delivery in deliveries, if it is not in currentDeliveries, add it to pickup
 
   let pickup = [];
   let copy = currentBounties;

@@ -1,4 +1,5 @@
 import { PriorityQueue } from "@datastructures-js/priority-queue";
+import { edges, portals } from "./nodes.js";
 
 /**
  * Calculates the shortest path between two locations
@@ -6,6 +7,8 @@ import { PriorityQueue } from "@datastructures-js/priority-queue";
 class GPS {
   #graph;
   #cache;
+
+  additionalHostileZoneWeight = 0.15 * 7.5; // Chance of hostile encounter * time to resolve
 
   constructor() {
     this.#graph = new Map();
@@ -88,7 +91,7 @@ class GPS {
     return path[0] === start ? path : [];
   }
 
-  #addDirectedEdge(node1, node2, weight = 1) {
+  #addEdge(node1, node2, weight) {
     if (!this.#graph.has(node1)) {
       this.#graph.set(node1, []);
     }
@@ -96,101 +99,24 @@ class GPS {
     this.#graph.get(node1).push([node2, weight]);
   }
 
-  #addUndirectedEdge(node1, node2, weight = 1) {
-    this.#addDirectedEdge(node1, node2, weight);
-    this.#addDirectedEdge(node2, node1, weight);
-  }
-
   #buildGraph() {
-    this.#addUndirectedEdge(
-      "Crenopolis Outskirts Portal Stone",
-      "Cyclops East Pass",
-    );
-    this.#addUndirectedEdge("Cyclops East Pass", "Stony Ravine");
-    this.#addUndirectedEdge("Cyclops East Pass", "Road to Crenopolis");
-    this.#addUndirectedEdge("Stony Gorge", "Stony Canyon", 1.5);
-    this.#addUndirectedEdge("Cyclops Canyon", "Unicorn Farm");
-    this.#addUndirectedEdge("Unicorn Farm", "Cyclops Store Cave");
-    this.#addUndirectedEdge("Road to Crenopolis", "Rockbird Clearing");
-    this.#addUndirectedEdge("Road to Crenopolis", "West Gate");
-    this.#addUndirectedEdge("Rockbird Clearing", "Fortunehold Meadow");
-    this.#addUndirectedEdge("Fortunehold Meadow", "Fortunehold Farm");
-    this.#addUndirectedEdge("West Gate", "Lord's Road West");
-    this.#addUndirectedEdge("Lord's Road West", "Cobble Corner");
-    this.#addUndirectedEdge("Cobble Corner", "Twiddle Corner");
-    this.#addUndirectedEdge("Dusty Alley", "Dusty Corner", 1.5);
-    this.#addUndirectedEdge("Morose Lane West", "Lani's Curiosities");
-    this.#addUndirectedEdge("Morose Lane West", "Morose Lane East");
-    this.#addUndirectedEdge("Morose Lane East", "Thimble Lane");
-    this.#addUndirectedEdge("Thimble Lane", "Geld Family Logistics");
-    this.#addUndirectedEdge("Geld Family Logistics", "Waterfront Market");
-    this.#addUndirectedEdge("Waterfront Market", "Waterfront");
-    this.#addUndirectedEdge("Waterfront", "Tanners Road");
-    this.#addUndirectedEdge("Waterfront", "Bobbin Road South");
-    this.#addUndirectedEdge("Bobbin Road South", "Thimble Lane");
-    this.#addUndirectedEdge("Bobbin Road South", "Bobbin Road North");
-    this.#addUndirectedEdge("Bobbin Road North", "Thadwick Square");
-    this.#addUndirectedEdge("Thadwick Square", "Lord's Road New");
-    this.#addUndirectedEdge("Thadwick Square", "Goose Inn Bar");
-    this.#addUndirectedEdge("Goose Inn Bar", "Goose Inn Kitchen");
-    this.#addUndirectedEdge("Lord's Road New", "Lord's Road East");
-    this.#addUndirectedEdge("Lord's Road East", "Lord's Road Central");
-    this.#addUndirectedEdge("Lord's Road Central", "Lord's Road West");
-    this.#addUndirectedEdge("Tanners Road", "Ratmore Road");
-    this.#addUndirectedEdge("Ratmore Road", "Ratmore Rise");
-    this.#addUndirectedEdge("Ratmore Rise", "Leatherworks");
-    this.#addUndirectedEdge("Leatherworks", "Bobbin Road North");
-    this.#addUndirectedEdge("Ratmore Road", "Market Chambers");
-    this.#addUndirectedEdge("Market Chambers", "South Player Market");
-    this.#addUndirectedEdge(
-      "Crenopolis Market Portal Stone",
-      "East Player Market",
-    );
-    this.#addUndirectedEdge("East Player Market", "Bert's Gallery");
-    this.#addUndirectedEdge(
-      "East Player Market",
-      "Henderson's Meat Storehouse",
-    );
-    this.#addUndirectedEdge("East Player Market", "North Player Market");
-    this.#addUndirectedEdge("East Player Market", "South Player Market");
-    this.#addUndirectedEdge("North Player Market", "West Player Market");
-    this.#addUndirectedEdge("South Player Market", "West Player Market");
-    this.#addUndirectedEdge("West Player Market", "Outer Market");
-    // this.#addUndirectedEdge("West Player Market", "Dilapidated Warehouse");
-    // this.#addUndirectedEdge("Dilapidated Warehouse", "Slant Street");
-    this.#addUndirectedEdge("West Player Market", "Slant Street Cart House");
-    this.#addUndirectedEdge("Slant Street Cart House", "Bogg's Antiques");
-    this.#addUndirectedEdge("Slant Street", "Peacock Road South");
-    this.#addUndirectedEdge("Slant Street", "Slant Street Cart House");
-    this.#addUndirectedEdge("Outer Market", "Thadwick Square");
-    this.#addUndirectedEdge("Thadwick Square", "Peacock Road South");
-    this.#addUndirectedEdge("Peacock Road South", "Peacock Road Central");
-    this.#addUndirectedEdge("Peacock Road Central", "Peacock Road North");
-    this.#addUndirectedEdge("Lord's Road West", "Hopton Corner");
-    this.#addUndirectedEdge("Hopton Corner", "Rat Alley");
-    this.#addUndirectedEdge("Rat Alley", "Murkwell Court");
-    this.#addUndirectedEdge("Murkwell Court", "Meggrit's Market");
-    this.#addUndirectedEdge("Murkwell Court", "Murkwell Lane");
-    this.#addUndirectedEdge("Murkwell Lane", "Dawkin Lane");
-    this.#addUndirectedEdge("Dawkin Lane", "Soap Shop");
-    this.#addUndirectedEdge("Lord's Road Central", "Greengrocers");
-    this.#addUndirectedEdge("Greengrocers", "Twiddle Corner");
-    this.#addUndirectedEdge("Merchant's Guild", "North Player Market");
-    this.#addUndirectedEdge("Merchant's Guild", "West Player Market");
-    this.#addUndirectedEdge("Merchant's Guild", "South Player Market");
+    for (const edge of edges) {
+      const [node1, node2] = edge.nodes;
+      const weight = edge.hostile
+        ? edge.weight + this.additionalHostileZoneWeight
+        : edge.weight;
 
-    this.#addDirectedEdge("Stony Ravine", "Stony Gorge", 1.5);
-    this.#addDirectedEdge("Stony Gorge", "Stony Ravine");
-    this.#addDirectedEdge("Stony Canyon", "Cyclops Canyon");
-    this.#addDirectedEdge("Cyclops Canyon", "Stony Canyon", 1.5);
-    this.#addDirectedEdge("Twiddle Corner", "Dusty Alley", 1.5);
-    this.#addDirectedEdge("Dusty Alley", "Twiddle Corner");
-    this.#addDirectedEdge("Dusty Corner", "Morose Lane West");
-    this.#addDirectedEdge("Morose Lane West", "Dusty Corner", 1.5);
+      this.#addEdge(node1, node2, weight);
 
+      if (!edge.directed) {
+        this.#addEdge(node2, node1, weight);
+      }
+    }
+
+    // Portal zones can be travelled to from any other zone, with ~8 seconds of travel time
     for (let node of this.#graph.keys()) {
-      this.#addDirectedEdge(node, "Crenopolis Market Portal Stone", 1.5);
-      this.#addDirectedEdge(node, "Crenopolis Outskirts Portal Stone", 1.5);
+      this.#addEdge(node, portals.CRENOPOLIS_MARKET.node, 8.0);
+      this.#addEdge(node, portals.CRENOPOLIS_OUTSKIRTS.node, 8.0);
     }
   }
 }
