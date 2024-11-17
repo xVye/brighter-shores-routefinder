@@ -1,5 +1,13 @@
 import { markets } from "./nodes.js";
 
+/**
+ * Bounties that can be completed in the game
+ * Data is referenced from: https://brightershoreswiki.org/w/Merchant
+ *
+ * Experience data is referenced from: https://brightershoreswiki.org/w/Merchant_Guild_Bounties_XP_%26_Values
+ * Experience scales with level, and the formula is currently unknown.
+ * So we are using the maximum values currently reported on the wiki (currently level 153)
+ */
 export const bounties = {
   CARROTS: {
     name: "Carrots",
@@ -123,8 +131,15 @@ export const bounties = {
   },
 };
 
+/**
+ * The status of a bounty
+ *
+ * NOT_STARTED: The item still needs to be purchased
+ * IN_PROGRESS: The item has been purchased but not yet sold
+ * COMPLETED: The item has been purchased
+ */
 export const BountyStatus = {
-  NOT_STARTED: 0, // The item still needs to be purchased
-  IN_PROGRESS: 1, // The item has been purchased but not yet sold
-  COMPLETED: 2, // The item has been purchased and sold
+  NOT_STARTED: 0,
+  IN_PROGRESS: 1,
+  COMPLETED: 2,
 };

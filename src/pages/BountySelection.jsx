@@ -19,12 +19,12 @@ const BountySelection = () => {
         The bounties you currently have. You can select up to six bounties.
       </Paragraph>
       <div className="grid grid-cols-3 gap-3 mb-5">
-        {bounties.map((selection) => (
+        {bounties.map((bounty) => (
           <Bounty
-            key={selection.name}
-            type={selection.name}
-            selected={selection.selected}
-            onClick={() => selectBounty(selection.name)}
+            key={bounty.key}
+            bountyKey={bounty.key}
+            selected={bounty.selected}
+            onClick={() => selectBounty(bounty.key)}
           />
         ))}
       </div>
@@ -38,12 +38,12 @@ const BountySelection = () => {
         which ones to pick up.
       </Paragraph>
       <div className="grid grid-cols-3 gap-3 mb-5">
-        {availableBounties.map((selection) => (
+        {availableBounties.map((bounty) => (
           <Bounty
-            key={selection.name}
-            type={selection.name}
-            selected={selection.selected}
-            onClick={() => selectAvailableBounty(selection.name)}
+            key={bounty.key}
+            bountyKey={bounty.key}
+            selected={bounty.selected}
+            onClick={() => selectAvailableBounty(bounty.key)}
           />
         ))}
       </div>

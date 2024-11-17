@@ -2,13 +2,15 @@ import { PriorityQueue } from "@datastructures-js/priority-queue";
 import { edges, portals } from "./nodes.js";
 
 /**
- * Calculates the shortest path between two locations
+ * Calculates the shortest path between two nodes
+ * For more information on nodes, see:
+ *    {@link markets}
+ *    {@link edges}
+ *    {@link portals}
  */
 class GPS {
   #graph;
   #cache;
-
-  additionalHostileZoneWeight = 0.15 * 7.5; // Chance of hostile encounter * time to resolve
 
   constructor() {
     this.#graph = new Map();
@@ -38,8 +40,8 @@ class GPS {
       return { distance: 0, path: [node1] };
     }
 
-    const mpq = new PriorityQueue((a, b) => a.distance - b.distance);
-    mpq.enqueue({ distance: 0, node: node1 });
+    const pq = new PriorityQueue((a, b) => a.distance - b.distance);
+    pq.enqueue({ distance: 0, node: node1 });
 
     const distances = new Map();
     const previous = new Map();
@@ -51,8 +53,8 @@ class GPS {
 
     distances.set(node1, 0);
 
-    while (mpq.size() > 0) {
-      const { distance: currentDistance, node: currentNode } = mpq.dequeue();
+    while (pq.size() > 0) {
+      const { distance: currentDistance, node: currentNode } = pq.dequeue();
 
       if (currentDistance > distances.get(currentNode)) {
         continue;
@@ -65,7 +67,7 @@ class GPS {
           distances.set(neighbor, distance);
           previous.set(neighbor, currentNode);
 
-          mpq.enqueue({ distance, node: neighbor });
+          pq.enqueue({ distance, node: neighbor });
 
           if (neighbor === node2) {
             return {
@@ -96,14 +98,28 @@ class GPS {
       this.#graph.set(node1, []);
     }
 
-    this.#graph.get(node1).push([node2, weight]);
+    const neighbors = this.#graph.get(node1);
+
+    // Duplicate edge prevention, if an edge already exists between two nodes, keep the existing edge
+    for (const [neighbor, existingWeight] of neighbors) {
+      if (neighbor === node2) {
+        console.warn(
+          `Edge between ${node1} and ${node2} already exists. Keeping existing edge with weight ${existingWeight}`,
+        );
+        return;
+      }
+    }
+
+    neighbors.push([node2, weight]);
   }
 
   #buildGraph() {
     for (const edge of edges) {
       const [node1, node2] = edge.nodes;
+
+      // If an edge is in a hostile zone, add additional weight to the edge to represent the chance of an encounter
       const weight = edge.hostile
-        ? edge.weight + this.additionalHostileZoneWeight
+        ? edge.weight + edge.chanceOfEncounter * edge.timeToResolve
         : edge.weight;
 
       this.#addEdge(node1, node2, weight);
@@ -113,10 +129,11 @@ class GPS {
       }
     }
 
-    // Portal zones can be travelled to from any other zone, with ~8 seconds of travel time
+    // Portal zones can be travelled to from any other node
     for (let node of this.#graph.keys()) {
-      this.#addEdge(node, portals.CRENOPOLIS_MARKET.node, 8.0);
-      this.#addEdge(node, portals.CRENOPOLIS_OUTSKIRTS.node, 8.0);
+      Object.entries(portals).forEach(([, portal]) => {
+        this.#addEdge(node, portal.node, portal.teleportTime);
+      });
     }
   }
 }

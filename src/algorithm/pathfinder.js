@@ -12,20 +12,22 @@ import { bounties as bountyData } from "./bounties.js";
 class Pathfinder {
   includeTeleportSteps = true; // Whether to include teleport steps in the path
   includeWalkingSteps = false; // Whether to include walking steps in the path
-  inventorySpace = 24; // The number of items that can be carried at once
-  timeToBuy = 3; // The time it takes to buy an item
-  timeToSell = 4; // The time it takes to sell an item
+  inventorySpace = 24; // The maximum number of items that can be carried at once
+  timeToBuy = 3; // The time in seconds it takes to buy an item
+  timeToSell = 4; // The time in seconds it takes to sell an item
 
   /**
    * Determines which deliveries should be made based on current and available deliveries
-   * @param currentBounties An array of {@link bountyData} that are currently in progress
+   * @param currentBounties An array of keys from {@link bountyData}
+   *   These are be the bounties the player has already accepted
    *   E.g, [CARROTS, SOAP, ...]
-   * @param availableBounties An array of {@link bountyData} that are available
+   * @param availableBounties (Optional) An array of keys from {@link bountyData}
+   *   These are the bounties the player has available but not yet accepted on the bounty board
    *   E.g, [CARROTS, SOAP, ...]
    * @returns {
-   *     {bounties: string[]},    // An array of bounties that should be made
+   *     {bounties: string[]},    // An array of keys from {@link bountyData} representing the best bounties to complete
    *     {actions:    string[]},  // An array of actions to take to complete the deliveries
-   *     {distance:   number}     // The total distance to complete the deliveries
+   *     {distance:   number}     // The total distance (time in seconds) it will take to complete the bounties
    * }
    */
   findBestBounties(currentBounties, availableBounties) {
@@ -33,46 +35,55 @@ class Pathfinder {
       bounties: [],
       actions: [],
       distance: Number.MAX_SAFE_INTEGER,
-      totalExp: 0,
-      expPerSecond: 0,
+      experience: 0,
     };
 
     const allBounties = [...currentBounties, ...availableBounties];
-    const combos = combinations(allBounties, 6);
+    const combos = combinations(allBounties, Math.min(allBounties.length, 6));
 
-    // Prioritize repeating sequences since they are much more likely to be optimal
-    // Then pass the current best distance to #findBestRoute to give up on bad paths early
-    // ^ this works, but doesn't help in the scenario that there are no repeating sequences
+    // Sort the combinations by the number of overlapping merchants that they have.
+    // This is done because the best combination is likely to have more overlapping merchants.
+    // By finding the best combination early on, we cut down on the number of routes that need to be calculated.
+    combos.sort(
+      (combo1, combo2) =>
+        this.#getNumOverlappingMerchants(combo2) -
+        this.#getNumOverlappingMerchants(combo1),
+    );
 
+    const startTimestamp = Date.now();
     console.log(`Finding best route amongst ${combos.length} possibilities`);
+
     combos.forEach((combo) => {
-      const totalExp = combo.reduce(
+      const experience = combo.reduce(
         (acc, bounty) => acc + bountyData[bounty].exp,
         0,
       );
 
-      const { actions, distance } = this.findBestRoute(combo);
-      const expPerSecond = totalExp / distance;
-
-      //if (distance < result.distance) {
-      if (expPerSecond > result.expPerSecond) {
-        result.bounties = combo;
-        result.actions = actions;
-        result.distance = distance;
-        result.totalExp = totalExp;
-        result.expPerSecond = totalExp / distance;
+      const route = this.findBestRoute(combo, result.distance);
+      if (route === null) {
+        // Route was not shorter than the current best
+        return;
       }
+
+      result.distance = route.distance;
+      result.bounties = combo;
+      result.actions = route.actions;
+      result.experience = experience;
     });
 
+    console.log(`Best route found in ${Date.now() - startTimestamp}ms`);
     return result;
   }
 
   /**
    * Determines the shortest route to complete all deliveries
    * @param bounties An array containing bounties {@link bountyData}. E.g, [CARROTS, SOAP, ...]
-   * @returns {{actions: string[], distance: number}} An object containing the actions to take and the total distance
+   * @param threshold This method will "give up" on paths that are longer than this distance
+   * @returns {{actions: string[], distance: number} | null}
+   *  Returns an object containing the actions to take and the total distance
+   *  Returns null if no route is found that is shorter than the threshold
    */
-  findBestRoute(bounties) {
+  findBestRoute(bounties, threshold = Number.MAX_SAFE_INTEGER) {
     const pq = new PriorityQueue((a, b) => a.distance - b.distance);
     const visited = new Map();
 
@@ -94,6 +105,11 @@ class Pathfinder {
         bountyStates: originalBountyStates,
         actions: originalActions,
       } = pq.dequeue();
+
+      // Give up on paths that are too long
+      if (distance > threshold) {
+        return null;
+      }
 
       // Avoid mutating the original arrays by creating copies
       const bountyStates = [...originalBountyStates];
@@ -131,8 +147,8 @@ class Pathfinder {
 
         actions.push({
           type: "sell",
-          item: bountyData[bounty].name,
-          location: bountyData[bounty].buyer.name, // TODO: Add location
+          item: bounty,
+          location: bountyData[bounty].buyer.name,
           distance: distanceAfterTrading,
         });
         bountyStates[i] = BountyStatus.COMPLETED;
@@ -164,8 +180,8 @@ class Pathfinder {
 
         actions.push({
           type: "buy",
-          item: bountyData[bounty].name,
-          location: bountyData[bounty].seller.name, // TODO: Add location
+          item: bounty,
+          location: bountyData[bounty].seller.name,
           distance: distanceAfterTrading,
         });
         bountyStates[i] = BountyStatus.IN_PROGRESS;
@@ -216,6 +232,37 @@ class Pathfinder {
   }
 
   /**
+   * Determines the number of overlapping merchants in a list of bounties
+   * For example, [CARROTS, CARROTS] would have two overlapping merchants (GREENGROCERS & TOY_STALL)
+   * While [CARROTS, PORCELAIN_DOLL] would have one overlapping merchant (TOY_STALL)
+   * @param bounties An array of bounty keys
+   * @returns {number} The number of overlapping merchants
+   */
+  #getNumOverlappingMerchants = (bounties) => {
+    let result = 0;
+    const merchants = new Set();
+
+    for (const bounty of bounties) {
+      const buy = bountyData[bounty].buyer.node;
+      const sell = bountyData[bounty].seller.node;
+
+      if (merchants.has(buy)) {
+        result += 1;
+      } else {
+        merchants.add(buy);
+      }
+
+      if (merchants.has(sell)) {
+        result += 1;
+      } else {
+        merchants.add(sell);
+      }
+    }
+
+    return result;
+  };
+
+  /**
    * Updates the actions array with individual steps to take to get from one location to another
    * @param actions An array of actions
    * @param startNode Node of the starting location (reference {@link edges})
@@ -238,7 +285,7 @@ class Pathfinder {
         actions.push({
           type: "teleport",
           location: portals.CRENOPOLIS_MARKET.name,
-          distance: distance + 8, // TODO: magic number, replace with a constant
+          distance: distance + portals.CRENOPOLIS_MARKET.teleportTime,
         });
       } else if (
         this.includeTeleportSteps &&
@@ -247,7 +294,7 @@ class Pathfinder {
         actions.push({
           type: "teleport",
           location: portals.CRENOPOLIS_OUTSKIRTS.name,
-          distance: distance + 8, // TODO: magic number, replace with a constant
+          distance: distance + portals.CRENOPOLIS_OUTSKIRTS.teleportTime,
         });
       } else if (this.includeWalkingSteps) {
         actions.push({

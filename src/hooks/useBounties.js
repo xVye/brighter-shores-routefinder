@@ -1,13 +1,18 @@
 import { bounties } from "../algorithm/bounties.js";
 import { useEffect, useMemo, useState } from "react";
 
-const defaultBountyState = Object.keys(bounties).map((key) => ({
-  name: bounties[key].name,
-  selected: false,
-}));
+const defaultBountyState = Object.fromEntries(
+  Object.entries(bounties).map(([key, value]) => [
+    key,
+    {
+      name: value.name,
+      selected: false,
+    },
+  ]),
+);
 
 const useBounties = (key) => {
-  const [bounties, setBounties] = useState(() => {
+  const [bountyObj, setBountyObj] = useState(() => {
     const bountyJson = sessionStorage.getItem(key);
     if (bountyJson) {
       return JSON.parse(sessionStorage.getItem(key));
@@ -17,27 +22,30 @@ const useBounties = (key) => {
   });
 
   useEffect(() => {
-    sessionStorage.setItem(key, JSON.stringify(bounties));
-  }, [key, bounties]);
+    sessionStorage.setItem(key, JSON.stringify(bountyObj));
+  }, [key, bountyObj]);
+
+  const bounties = useMemo(() => {
+    return Object.keys(bountyObj).map((key) => ({
+      key,
+      ...bountyObj[key],
+    }));
+  }, [bountyObj]);
 
   const selectedBounties = useMemo(() => {
-    return bounties
-      .filter((bounty) => bounty.selected)
-      .map((bounty) => bounty.name);
+    return bounties.filter((bounty) => bounty.selected);
   }, [bounties]);
 
-  const selectBounty = (name) => {
-    const newBounties = bounties.map((bounty) => {
-      if (bounty.name === name) {
-        return {
-          ...bounty,
-          selected: !bounty.selected && selectedBounties.length < 6,
-        };
-      }
-      return bounty;
+  const selectBounty = (key) => {
+    setBountyObj((bountyObj) => {
+      return {
+        ...bountyObj,
+        [key]: {
+          ...bountyObj[key],
+          selected: !bountyObj[key].selected,
+        },
+      };
     });
-
-    setBounties(newBounties);
   };
 
   return { bounties, selectedBounties, selectBounty };

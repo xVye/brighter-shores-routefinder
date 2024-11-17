@@ -1,3 +1,13 @@
+/**
+ * Generate all possible combinations of a given size from an array.
+ * For example, given the array ['a', 'b', 'c'] and a size of 2, the possible combinations are:
+ * [['a', 'b'], ['a', 'c'], ['b', 'c']]
+ *
+ * @param array The array to generate combinations from
+ * @param size The size of the combinations
+ * @param uniqueCombinationsOnly If true, only unique combinations will be returned
+ * @returns {[]} An array of combinations
+ */
 const combinations = (array, size, uniqueCombinationsOnly = true) => {
   let result = [];
 

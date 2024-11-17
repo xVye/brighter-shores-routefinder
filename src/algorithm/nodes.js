@@ -1,8 +1,6 @@
-// All nodes in this file are referenced in the `complete-brighter-shores-world-map.xcf` file (GIMP file).
-// This file can be found at [TODO]
-
 /**
- * This node is the starting point for the player.
+ * Starting point for the player.
+ * All node numbers can be referenced in the brighter shores world map file mentioned in the code repositories README.
  */
 export const bountyBoard = {
   name: "Guild Bounty Board",
@@ -10,21 +8,25 @@ export const bountyBoard = {
 };
 
 /**
- * These nodes represent portals.
+ * Portals that players can teleport to.
+ * All node numbers can be referenced in the brighter shores world map file mentioned in the code repositories README.
  */
 export const portals = {
   CRENOPOLIS_MARKET: {
     name: "Crenopolis Market",
     node: 53,
+    teleportTime: 8,
   },
   CRENOPOLIS_OUTSKIRTS: {
     name: "Crenopolis Outskirts",
     node: 54,
+    teleportTime: 8,
   },
 };
 
 /**
- * These nodes represent markets, and can be referenced in the `complete-brighter-shores-world-map.xcf` file (GIMP file).
+ * Markets where players buy or sell bounty related items.
+ * All node numbers can be referenced in the brighter shores world map file mentioned in the code repositories README.
  */
 export const markets = {
   VICTOR_T_CYCLOPS: {
@@ -130,31 +132,56 @@ export const markets = {
 };
 
 /**
- * Any nodes not defined above represent the "doors" between rooms.
- * The weight is the time in seconds it takes to travel between the two nodes.
- * Directed nodes are one-way paths, this is done because it is faster to travel in one direction than the other.
- * Hostile nodes are paths where you may get attacked by mobs.
- * Investigator nodes require some level in the Investigator skill to travel through.
+ * Any nodes not already defined above represent the "doors" between rooms.
+ * For example, the pathway between Waterfront and Tanners Road is represented by node #35.
+ * All node numbers can be referenced in the brighter shores world map file mentioned in the code repositories README.
+ *
+ * `weight` is the time in seconds it takes to travel between the two nodes.
+ *
+ * `directed` edges are one-way paths that take longer to travel in one direction than the other.
+ *    This is the case for example in Lord's Road West, where you must pass through a doorway to get to the other side.
+ *
+ * `hostile` edges are paths where you may get attacked by mobs.
+ *
+ * `investigator` edges require some level in the Investigator skill to travel through.
+ *
+ * `portal` edges are paths that connect to a portal stone.
  *
  * When filling this out, always start with the lower node number and work your way up.
- * For example, if examining node '50', look for any neighboring nodes that are *higher* than '50'.
- * If the node is lower, it should have already been filled out previously.
- * The only exception to this is if the edge is directed, then any lower and higher node numbers have to be considered.
- * This method makes it easier to validate the nodes.
+ * For example, when examining node 50, look only for any neighboring nodes that are *higher* than 50.
+ *   This could be [50, 56], [50, 59], etc.
+ *   In the case of [50, 49] - this should not be included as 49 is lower than 50 and
+ *   should already be filled out by node [49, 50] instead.
+ * The only exception to this is if the edge is directed, then both lower and higher node numbers have to be considered.
+ *   For example, [1, 2] and [2, 1] are both represented since the edge is directed.
+ *
+ * This method makes it much easier to validate the nodes since they are always in order.
  */
 export const edges = [
   { nodes: [1, 2], weight: 7.58, directed: true },
   { nodes: [1, 9], weight: 5.99 },
-  { nodes: [1, 54], weight: 4.17 },
+  { nodes: [1, 54], weight: 4.17, portal: true },
 
-  // directed 2 to 1 not needed
+  // [2, 1] not needed
   { nodes: [2, 9], weight: 4.21, directed: true },
   { nodes: [2, 3], weight: 4.43, directed: true },
 
   { nodes: [3, 2], weight: 8.32, directed: true },
-  { nodes: [3, 4], weight: 7.43, hostile: true },
+  {
+    nodes: [3, 4],
+    weight: 7.43,
+    hostile: true,
+    chanceOfEncounter: 0.15,
+    timeToResolve: 7.5,
+  },
 
-  { nodes: [4, 5], weight: 6.0, hostile: true },
+  {
+    nodes: [4, 5],
+    weight: 6.0,
+    hostile: true,
+    chanceOfEncounter: 0.15,
+    timeToResolve: 7.5,
+  },
 
   { nodes: [5, 6], weight: 2.96 },
 
@@ -205,9 +232,21 @@ export const edges = [
 
   { nodes: [21, 92], weight: 2.18 },
 
-  { nodes: [22, 23], weight: 4.13, hostile: true },
+  {
+    nodes: [22, 23],
+    weight: 4.13,
+    hostile: true,
+    chanceOfEncounter: 0.15,
+    timeToResolve: 7.5,
+  },
 
-  { nodes: [23, 24], weight: 2.68, hostile: true },
+  {
+    nodes: [23, 24],
+    weight: 2.68,
+    hostile: true,
+    chanceOfEncounter: 0.15,
+    timeToResolve: 7.5,
+  },
 
   { nodes: [24, 25], weight: 5.9 },
   { nodes: [24, 27], weight: 7.03 },
@@ -305,7 +344,7 @@ export const edges = [
   { nodes: [51, 59], weight: 6.3 },
   { nodes: [51, 100], weight: 7.29 },
 
-  { nodes: [53, 55], weight: 2.56 },
+  { nodes: [53, 55], weight: 2.56, portal: true },
 
   { nodes: [55, 56], weight: 3.26 },
   { nodes: [55, 58], weight: 4.69 },
