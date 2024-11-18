@@ -2,7 +2,6 @@
 
 A tool for Brighter Shores which finds the best merchanting routes.
 
----
 ## How it works
 Select bounties which you currently have, and the tool will use Dijkstra's algorithm to find the best possible paths 
 for you to take to complete each bounty.
@@ -27,8 +26,6 @@ You do not need to be a developer to contribute to the tool. Join our [Discord](
 - Post any other `#ideas-and-suggestions` you have!
 
 If you are a developer who wants to help contribute, please read on!
-
----
 
 ## Project structure
 
