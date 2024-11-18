@@ -160,20 +160,20 @@ const RoutePlanner = () => {
       {/*) : null}*/}
 
       {result?.actions?.length ? (
-        <div className="relative overflow-x-auto my-7">
-          <table className="table-fixed w-full text-left rtl:text-right">
+        <div className="relative overflow-x-auto my-7 whitespace-nowrap">
+          <table className="w-full text-left rtl:text-right">
             <thead className="text-gray-900 uppercase">
               <tr className="border-b border-gray-100">
-                <th scope="col" className="py-3">
+                <th scope="col" className="py-3 min-w-[100px]">
                   Action
                 </th>
-                <th scope="col" className="py-3">
+                <th scope="col" className="py-3 min-w-[100px]">
                   Item
                 </th>
-                <th scope="col" className="py-3 text-right">
+                <th scope="col" className="py-3 text-right min-w-[100px]">
                   Location
                 </th>
-                <th scope="col" className="py-3 text-right">
+                <th scope="col" className="py-3 text-right min-w-[50px]">
                   Est. Time
                 </th>
               </tr>
