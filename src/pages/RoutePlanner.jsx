@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import Bounty from "../components/Bounty.jsx";
 import Subheading from "../components/Subheading.jsx";
 import useSettings from "../hooks/useSettings.js";
+import Paragraph from "../components/Paragraph.jsx";
+import InternalLink from "../components/InternalLink.jsx";
 
 const worker = new Worker(new URL("../algorithm/worker.js", import.meta.url), {
   type: "module",
@@ -102,13 +104,23 @@ const RoutePlanner = () => {
 
   return (
     <Page title="Bounty Plan" meta="The best route based on your selections.">
-      {loading && (
+      {!bounties.length && !availableBounties.length ? (
+        <div>
+          <Paragraph>
+            You have not selected any bounties yet. Please{" "}
+            <InternalLink to="/select-bounties">select bounties</InternalLink>{" "}
+            to get started.
+          </Paragraph>
+        </div>
+      ) : null}
+
+      {(bounties.length || availableBounties.length) && loading ? (
         <div className="h-[325px] flex items-center place-content-center mb-6">
           <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse">
             Calculating best route...
           </div>
         </div>
-      )}
+      ) : null}
 
       {bountiesToAbandon?.length ? (
         <>
