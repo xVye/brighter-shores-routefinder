@@ -45,7 +45,7 @@ algorithm part of the project.
 
 - `components/`: Contains all the React components used in the project.
 - `pages/`: Contains all the pages of the project.
-- `hooks/`: Contains all the custom hooks used in the project.
+- `hooks/`: Contains all the custom hooks used in the project. 
 - `icons/`: Contains all the SVG icons used in the project.
 
 ## Map Nodes
