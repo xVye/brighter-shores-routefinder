@@ -37,6 +37,10 @@ const useBounties = (key) => {
   }, [bounties]);
 
   const selectBounty = (key) => {
+    if (selectedBounties.length >= 6 && !bountyObj[key].selected) {
+      return;
+    }
+
     setBountyObj((bountyObj) => {
       return {
         ...bountyObj,
