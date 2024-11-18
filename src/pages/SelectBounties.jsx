@@ -7,6 +7,7 @@ import useSettings from "../hooks/useSettings.js";
 
 import { bounties as bountyData } from "../algorithm/bounties.js";
 import InternalLink from "../components/InternalLink.jsx";
+import ExternalLink from "../components/ExternalLink.jsx";
 
 const SelectBounties = () => {
   const { bounties, selectBounty } = useBounties("bounties");
@@ -24,7 +25,12 @@ const SelectBounties = () => {
       <Paragraph>
         Select bounties you currently have (up to 6 total). To see or hide
         relevant bounties, change your merchanting level on the{" "}
-        <InternalLink to="/configuration">configuration page</InternalLink>.
+        <InternalLink to="/configuration">configuration page</InternalLink>. Not
+        all bounties have been discovered yet, so higher level ones may be
+        missing. Please help contribute by providing details about these
+        bounties in our{" "}
+        <ExternalLink to="https://discord.gg/fcSYv9GPwJ">Discord</ExternalLink>,
+        and we will get them added.
       </Paragraph>
       <div className="grid grid-cols-3 gap-3 mb-5">
         {bounties
