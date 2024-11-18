@@ -20,12 +20,10 @@ const additionalRooms = [
   {
     level: 51,
     rooms: ["Four Winds Back Room", "Four Winds Side Room"],
-    infoNeeded: true,
   },
   {
     level: 83,
     rooms: ["Gillad's House", "The Quill Club"],
-    infoNeeded: true,
   },
   // {
   //   level: 121,

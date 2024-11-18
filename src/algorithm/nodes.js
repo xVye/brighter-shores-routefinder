@@ -252,11 +252,14 @@ export const edges = [
 
   { nodes: [24, 25], weight: 5.9 },
   { nodes: [24, 27], weight: 7.03 },
+  { nodes: [24, 112], weight: 6.31 },
 
   { nodes: [25, 26], weight: 2.0 },
   { nodes: [25, 27], weight: 2.1 },
+  { nodes: [25, 112], weight: 2.04 },
 
   { nodes: [27, 28], weight: 4.54 },
+  { nodes: [27, 112], weight: 2.37 },
 
   { nodes: [28, 29], weight: 2.39 },
   { nodes: [28, 33], weight: 4.82 },
@@ -286,10 +289,10 @@ export const edges = [
   { nodes: [35, 36], weight: 4.2 },
   { nodes: [35, 37], weight: 5.44 },
   { nodes: [35, 48], weight: 7.69 },
-  // { nodes: [35, 93], weight: 0 }, Not needed
+  // { nodes: [35, 93] }, Not needed
 
   { nodes: [36, 48], weight: 3.92 },
-  // { nodes: [36, 93], weight: 0 }, Not needed
+  // { nodes: [36, 93] }, Not needed
 
   { nodes: [37, 38], weight: 4.91 },
   { nodes: [37, 39], weight: 10.34 },
@@ -331,12 +334,12 @@ export const edges = [
 
   { nodes: [48, 49], weight: 11.01 },
   { nodes: [48, 52], weight: 10.69 },
-  // { nodes: [48, 93], weight: 0 }, Not needed
+  // { nodes: [48, 93] }, Not needed
 
-  // { nodes: [49, 52], weight: 0 }, Not needed
+  // { nodes: [49, 52] }, Not needed
   { nodes: [49, 50], weight: 100, detective: 18 },
 
-  // { nodes: [50, 51], weight: 0 }, Not needed
+  // { nodes: [50, 51] }, Not needed
   { nodes: [50, 56], weight: 6.87 },
   { nodes: [50, 59], weight: 4.4 },
   { nodes: [50, 100], weight: 7.12 },
@@ -382,7 +385,7 @@ export const edges = [
 
   { nodes: [62, 63], weight: 6.62, detective: 8 },
 
-  // { nodes: [63, 65], weight: 0 }, Not needed
+  // { nodes: [63, 65] }, Not needed
   { nodes: [63, 67], weight: 5.06 },
   { nodes: [63, 101], weight: 6.77 },
 
@@ -401,10 +404,16 @@ export const edges = [
 
   { nodes: [68, 69], weight: 3.15 },
   { nodes: [68, 70], weight: 8.54 },
+  { nodes: [68, 113], weight: 5.65 },
+  { nodes: [68, 116], weight: 8.27 },
 
   { nodes: [69, 70], weight: 5.42 },
+  { nodes: [69, 113], weight: 2.09 },
+  { nodes: [69, 116], weight: 4.95 },
 
   { nodes: [70, 71], weight: 7.32 },
+  { nodes: [70, 113], weight: 6.1 },
+  { nodes: [70, 116], weight: 2.51 },
 
   { nodes: [72, 87], weight: 3.83 },
   { nodes: [72, 73], weight: 4.96 },
@@ -427,8 +436,10 @@ export const edges = [
   { nodes: [78, 79], weight: 6.15 },
 
   { nodes: [79, 80], weight: 3.14 },
+  { nodes: [79, 117], weight: 5.28 },
 
   { nodes: [80, 81], weight: 1.23 },
+  { nodes: [80, 117], weight: 4.6 },
 
   { nodes: [82, 83], weight: 1.75 },
   { nodes: [82, 96], weight: 4.61 },
@@ -439,14 +450,17 @@ export const edges = [
 
   { nodes: [86, 88], weight: 2.96 },
   { nodes: [86, 89], weight: 4.51 },
+  { nodes: [86, 111], weight: 3.1 },
 
   { nodes: [87, 88], weight: 7.61 },
   { nodes: [87, 92], weight: 3.09 },
 
   { nodes: [88, 89], weight: 6.85 },
   { nodes: [88, 92], weight: 6.51 },
+  { nodes: [88, 111], weight: 4.68 },
 
   { nodes: [89, 90], weight: 4.92 },
+  { nodes: [89, 111], weight: 3.68 },
 
   { nodes: [90, 91], weight: 5.67 },
   { nodes: [90, 95], weight: 7.59 },
@@ -487,4 +501,25 @@ export const edges = [
     directed: true,
     quest: "BATTLE_OF_FORTUNEHOLD",
   },
+
+  { nodes: [107, 108], weight: 3.19, detective: 51 },
+  // { nodes: [107, 109] }, Not needed
+  { nodes: [107, 111], weight: 5.34 },
+
+  // { nodes: [108, 110] }, Not needed
+  { nodes: [108, 112], weight: 4.94 },
+
+  { nodes: [109, 110], weight: 2.57, detective: 51 },
+  { nodes: [109, 111], weight: 7.85 },
+
+  { nodes: [110, 112], weight: 2.79 },
+
+  { nodes: [113, 114], weight: 2.97, detective: 83 },
+  // { nodes: [113, 116] }, Not needed
+
+  // { nodes: [114, 115] }, Not needed
+  { nodes: [114, 117], weight: 6.49 },
+
+  { nodes: [115, 116], weight: 6.1, detective: 83 },
+  { nodes: [115, 117], weight: 5.42 },
 ];
