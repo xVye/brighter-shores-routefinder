@@ -24,19 +24,28 @@ class Pathfinder {
    * @param availableBounties (Optional) An array of keys from {@link bountyData}
    *   These are the bounties the player has available but not yet accepted on the bounty board
    *   E.g, [CARROTS, SOAP, ...]
+   * @param detectiveLevel Level of players Detective skill, used to determine any additional rooms which can be accessed
+   * @param battleOfFortuneholdCompleted Whether the player has completed the Battle of Fortunehold quest which unlocks an additional room
    * @returns {
    *     {bounties: string[]},    // An array of keys from {@link bountyData} representing the best bounties to complete
    *     {actions:    string[]},  // An array of actions to take to complete the deliveries
    *     {distance:   number}     // The total distance (time in seconds) it will take to complete the bounties
    * }
    */
-  findBestBounties(currentBounties, availableBounties) {
+  findBestBounties(
+    currentBounties,
+    availableBounties,
+    detectiveLevel,
+    battleOfFortuneholdCompleted,
+  ) {
     const result = {
       bounties: [],
       actions: [],
       distance: Number.MAX_SAFE_INTEGER,
       experience: 0,
     };
+
+    const gps = new GPS(detectiveLevel, battleOfFortuneholdCompleted);
 
     const allBounties = [...currentBounties, ...availableBounties];
     const combos = combinations(allBounties, Math.min(allBounties.length, 6));
@@ -59,7 +68,7 @@ class Pathfinder {
         0,
       );
 
-      const route = this.findBestRoute(combo, result.distance);
+      const route = this.findBestRoute(combo, gps, result.distance);
       if (route === null) {
         // Route was not shorter than the current best
         return;
@@ -78,12 +87,13 @@ class Pathfinder {
   /**
    * Determines the shortest route to complete all deliveries
    * @param bounties An array containing bounties {@link bountyData}. E.g, [CARROTS, SOAP, ...]
+   * @param gps An instance of the GPS class
    * @param threshold This method will "give up" on paths that are longer than this distance
    * @returns {{actions: string[], distance: number} | null}
    *  Returns an object containing the actions to take and the total distance
    *  Returns null if no route is found that is shorter than the threshold
    */
-  findBestRoute(bounties, threshold = Number.MAX_SAFE_INTEGER) {
+  findBestRoute(bounties, gps, threshold = Number.MAX_SAFE_INTEGER) {
     const pq = new PriorityQueue((a, b) => a.distance - b.distance);
     const visited = new Map();
 
@@ -139,7 +149,7 @@ class Pathfinder {
         }
 
         if (numItemsBought + numItemsSold === 0) {
-          this.#addTravelSteps(actions, previousNode, currentNode);
+          this.#addTravelSteps(gps, actions, previousNode, currentNode);
         }
 
         numItemsSold += 1;
@@ -170,7 +180,7 @@ class Pathfinder {
         }
 
         if (numItemsBought + numItemsSold === 0) {
-          this.#addTravelSteps(actions, previousNode, currentNode);
+          this.#addTravelSteps(gps, actions, previousNode, currentNode);
         }
 
         if (numItemsBought === 0) {
@@ -197,7 +207,7 @@ class Pathfinder {
           .filter((b, i) => bountyStates[i] === BountyStatus.NOT_STARTED)
           .forEach((bounty) => {
             const nextNode = bountyData[bounty].seller.node;
-            const { distance: nextDistance } = GPS.distance(
+            const { distance: nextDistance } = gps.distance(
               currentNode,
               nextNode,
             );
@@ -216,7 +226,7 @@ class Pathfinder {
         .filter((d, i) => bountyStates[i] === BountyStatus.IN_PROGRESS)
         .forEach((bounty) => {
           const nextNode = bountyData[bounty].buyer.node;
-          const { distance: nextDistance } = GPS.distance(
+          const { distance: nextDistance } = gps.distance(
             currentNode,
             nextNode,
           );
@@ -264,17 +274,18 @@ class Pathfinder {
 
   /**
    * Updates the actions array with individual steps to take to get from one location to another
+   * @param gps An instance of the GPS class
    * @param actions An array of actions
    * @param startNode Node of the starting location (reference {@link edges})
    * @param endNode Name of the ending location, (reference {@link edges})
    */
-  #addTravelSteps(actions, startNode, endNode) {
-    const { path } = GPS.distance(startNode, endNode);
+  #addTravelSteps(gps, actions, startNode, endNode) {
+    const { path } = gps.distance(startNode, endNode);
     if (path.length < 2) {
       return;
     }
 
-    const distance =
+    const currentDistance =
       actions.length > 0 ? actions[actions.length - 1].distance : 0;
 
     for (let i = 1; i < path.length - 1; i++) {
@@ -285,7 +296,7 @@ class Pathfinder {
         actions.push({
           type: "teleport",
           location: portals.CRENOPOLIS_MARKET.name,
-          distance: distance + portals.CRENOPOLIS_MARKET.teleportTime,
+          distance: currentDistance + portals.CRENOPOLIS_MARKET.teleportTime,
         });
       } else if (
         this.includeTeleportSteps &&
@@ -294,7 +305,7 @@ class Pathfinder {
         actions.push({
           type: "teleport",
           location: portals.CRENOPOLIS_OUTSKIRTS.name,
-          distance: distance + portals.CRENOPOLIS_OUTSKIRTS.teleportTime,
+          distance: currentDistance + portals.CRENOPOLIS_OUTSKIRTS.teleportTime,
         });
       } else if (this.includeWalkingSteps) {
         actions.push({

@@ -1,9 +1,9 @@
 import About from "./About.jsx";
 import Configuration from "./Configuration.jsx";
-import BountySelection from "./BountySelection.jsx";
-import BountyPlan from "./BountyPlan.jsx";
+import SelectBounties from "./SelectBounties.jsx";
+import RoutePlanner from "./RoutePlanner.jsx";
 
-export const categories = ["Settings", "Bounties"];
+export const categories = ["Settings", "Routes"];
 
 const pages = [
   {
@@ -18,15 +18,15 @@ const pages = [
     category: categories[0],
   },
   {
-    title: "Bounty Selection",
-    path: "/bounty-selection",
-    component: BountySelection,
+    title: "Select Bounties",
+    path: "/select-bounties",
+    component: SelectBounties,
     category: categories[1],
   },
   {
-    title: "Bounty Plan",
-    path: "/bounty-plan",
-    component: BountyPlan,
+    title: "Route Planner",
+    path: "/route-planner",
+    component: RoutePlanner,
     category: categories[1],
   },
 ];

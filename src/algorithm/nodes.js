@@ -143,7 +143,9 @@ export const markets = {
  *
  * `hostile` edges are paths where you may get attacked by mobs.
  *
- * `investigator` edges require some level in the Investigator skill to travel through.
+ * `detective` edges require some level in the Detective skill to travel through.
+ *
+ * `quest` edges are paths that require a quest to be completed to travel through.
  *
  * `portal` edges are paths that connect to a portal stone.
  *
@@ -260,7 +262,7 @@ export const edges = [
   { nodes: [28, 33], weight: 4.82 },
   { nodes: [28, 94], weight: 8.39 },
 
-  { nodes: [29, 30], weight: 100, investigator: true },
+  { nodes: [29, 30], weight: 100, detective: 4 },
   { nodes: [29, 94], weight: 7.5 },
 
   { nodes: [30, 31], weight: 4.77 },
@@ -272,7 +274,7 @@ export const edges = [
   { nodes: [31, 104], weight: 2.44 },
 
   { nodes: [32, 34], weight: 3.71 },
-  { nodes: [32, 33], weight: 4.07, investigator: true },
+  { nodes: [32, 33], weight: 4.07, detective: 4 },
   { nodes: [32, 104], weight: 2.2 },
 
   { nodes: [33, 94], weight: 4.27 },
@@ -332,14 +334,14 @@ export const edges = [
   // { nodes: [48, 93], weight: 0 }, Not needed
 
   // { nodes: [49, 52], weight: 0 }, Not needed
-  { nodes: [49, 50], weight: 100, investigator: true },
+  { nodes: [49, 50], weight: 100, detective: 18 },
 
   // { nodes: [50, 51], weight: 0 }, Not needed
   { nodes: [50, 56], weight: 6.87 },
   { nodes: [50, 59], weight: 4.4 },
   { nodes: [50, 100], weight: 7.12 },
 
-  { nodes: [51, 52], weight: 4.43, investigator: true },
+  { nodes: [51, 52], weight: 4.43, detective: 18 },
   { nodes: [51, 56], weight: 6.34 },
   { nodes: [51, 59], weight: 6.3 },
   { nodes: [51, 100], weight: 7.29 },
@@ -378,13 +380,13 @@ export const edges = [
 
   { nodes: [61, 95], weight: 4.6 },
 
-  { nodes: [62, 63], weight: 6.62, investigator: true },
+  { nodes: [62, 63], weight: 6.62, detective: 8 },
 
   // { nodes: [63, 65], weight: 0 }, Not needed
   { nodes: [63, 67], weight: 5.06 },
   { nodes: [63, 101], weight: 6.77 },
 
-  { nodes: [64, 65], weight: 100, investigator: true },
+  { nodes: [64, 65], weight: 100, detective: 8 },
   { nodes: [64, 97], weight: 2.7 },
   { nodes: [64, 99], weight: 6.61 },
 
@@ -472,7 +474,17 @@ export const edges = [
   { nodes: [105, 75], weight: 5.16, directed: true },
   { nodes: [105, 76], weight: 2.42, directed: true },
   { nodes: [105, 77], weight: 0.1, directed: true },
-  { nodes: [105, 106], weight: 6.34, directed: true },
+  {
+    nodes: [105, 106],
+    weight: 6.34,
+    directed: true,
+    quest: "BATTLE_OF_FORTUNEHOLD",
+  },
 
-  { nodes: [106, 105], weight: 9.6, directed: true },
+  {
+    nodes: [106, 105],
+    weight: 9.6,
+    directed: true,
+    quest: "BATTLE_OF_FORTUNEHOLD",
+  },
 ];

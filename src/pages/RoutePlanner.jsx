@@ -3,6 +3,7 @@ import Page from "../components/Page.jsx";
 import { useEffect, useMemo, useState } from "react";
 import Bounty from "../components/Bounty.jsx";
 import Subheading from "../components/Subheading.jsx";
+import useSettings from "../hooks/useSettings.js";
 
 const worker = new Worker(new URL("../algorithm/worker.js", import.meta.url), {
   type: "module",
@@ -24,13 +25,15 @@ const formatTime = (input) => {
   }
 };
 
-const BountyPlan = () => {
+const RoutePlanner = () => {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState({});
 
   const { selectedBounties: bounties } = useBounties("bounties");
   const { selectedBounties: availableBounties } =
     useBounties("availableBounties");
+
+  const { detectiveLevel, battleOfFortuneholdCompleted } = useSettings();
 
   useEffect(() => {
     worker.onmessage = (event) => {
@@ -48,17 +51,22 @@ const BountyPlan = () => {
     setResult({});
     setLoading(true);
 
-    const currentBountiesKeys = bounties.map((bounty) => bounty.key);
-    const availableBountiesKeys = availableBounties.map((bounty) => bounty.key);
+    const message = {
+      currentBounties: bounties.map((bounty) => bounty.key),
+      availableBounties: availableBounties.map((bounty) => bounty.key),
+      detectiveLevel: detectiveLevel === "" ? 0 : detectiveLevel,
+      battleOfFortuneholdCompleted,
+    };
 
-    console.log("currentBounties", currentBountiesKeys);
-    console.log("availableBounties", availableBountiesKeys);
+    console.log("message", message);
 
-    worker.postMessage({
-      currentBounties: currentBountiesKeys,
-      availableBounties: availableBountiesKeys,
-    });
-  }, [bounties, availableBounties]);
+    worker.postMessage(message);
+  }, [
+    bounties,
+    availableBounties,
+    detectiveLevel,
+    battleOfFortuneholdCompleted,
+  ]);
 
   const bountiesToAbandon = useMemo(() => {
     if (Object.keys(result).length === 0) {
@@ -90,7 +98,7 @@ const BountyPlan = () => {
 
     console.log("bountiesToPickup", bountiesToPickup);
     return bountiesToPickup;
-  }, [availableBounties, result]);
+  }, [bounties, result]);
 
   return (
     <Page title="Bounty Plan" meta="The best route based on your selections.">
@@ -194,4 +202,4 @@ const BountyPlan = () => {
   );
 };
 
-export default BountyPlan;
+export default RoutePlanner;

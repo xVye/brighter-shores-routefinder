@@ -6,7 +6,6 @@ const Page = ({ title, meta, children }) => {
   const id = title.toLowerCase().replace(/ /g, "-");
 
   useEffect(() => {
-    document.title = `Brighter Shores Bounty Planner`;
     window.scrollTo({
       left: 0,
       top: 0,

@@ -38,6 +38,7 @@ const Bounty = ({ bountyKey, selected, onClick, size = "normal" }) => {
           width={50}
           height={50}
           src={`https://brightershoreswiki.org/images/${bounty.name.replace(/ /g, "_")}.png`}
+          onError={(e) => (e.currentTarget.src = "/unknown.jpg")}
           alt="carrots"
           className="rounded-md"
         />
