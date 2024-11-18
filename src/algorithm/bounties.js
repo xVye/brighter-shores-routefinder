@@ -149,6 +149,36 @@ export const bounties = {
     seller: markets.BERTS_GALLERY,
     buyer: markets.TOMMY_SHOES_WINES,
   },
+  CARRIAGE_CLOCK: {
+    level: 101,
+    name: "Carriage Clock",
+    seller: markets.CLOCK_STALL,
+    buyer: markets.PENNYS_CLOCKWORK,
+  },
+  SPECTACLES: {
+    level: 106,
+    name: "Spectacles",
+    seller: markets.MONOCLE_MARKET,
+    buyer: markets.CANDICES_CANDLES,
+  },
+  SHARPSEED_WINE: {
+    level: 113,
+    name: "Sharpseed Wine",
+    seller: markets.TOMMY_SHOES_WINES,
+    buyer: markets.JANESSAS_DELICACIES,
+  },
+  RUG: {
+    level: 118,
+    name: "Rug",
+    seller: markets.BOGGS_ANTIQUES,
+    buyer: markets.HERMARS_HOMEWARE,
+  },
+  CAVIAR: {
+    level: 127,
+    name: "Caviar",
+    seller: markets.JANESSAS_DELICACIES,
+    buyer: markets.BOGGS_ANTIQUES,
+  },
 };
 
 /**
