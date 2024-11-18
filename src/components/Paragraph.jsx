@@ -1,5 +1,6 @@
 const Paragraph = ({ children, className }) => {
-  return <p className={`mb-6 ${className || ""}`}>{children}</p>;
+  const classes = className?.includes("mb") ? className : `${className} mb-6`;
+  return <p className={classes}>{children}</p>;
 };
 
 export default Paragraph;

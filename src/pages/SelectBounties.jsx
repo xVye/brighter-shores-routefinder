@@ -10,9 +10,18 @@ import InternalLink from "../components/InternalLink.jsx";
 import ExternalLink from "../components/ExternalLink.jsx";
 
 const SelectBounties = () => {
-  const { bounties, selectBounty } = useBounties("bounties");
-  const { bounties: availableBounties, selectBounty: selectAvailableBounty } =
-    useBounties("availableBounties");
+  const {
+    bounties,
+    selectedBounties: selectedBounties,
+    selectBounty,
+    reset: resetBounties,
+  } = useBounties("bounties");
+  const {
+    bounties: availableBounties,
+    selectedBounties: selectedAvailableBounties,
+    selectBounty: selectAvailableBounty,
+    reset: resetAvailableBounties,
+  } = useBounties("availableBounties");
 
   const { merchantingLevel } = useSettings();
 
@@ -22,7 +31,7 @@ const SelectBounties = () => {
       meta="Select from current and available bounties."
     >
       <Subheading>Your bounties</Subheading>
-      <Paragraph>
+      <Paragraph className="mb-2">
         Select bounties you currently have (up to 6 total). To see or hide
         relevant bounties, change your merchanting level on the{" "}
         <InternalLink to="/configuration">configuration page</InternalLink>. Not
@@ -32,7 +41,13 @@ const SelectBounties = () => {
         <ExternalLink to="https://discord.gg/fcSYv9GPwJ">Discord</ExternalLink>,
         and we will get them added.
       </Paragraph>
-      <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 mb-5">
+      <button
+        className={`text-blue-600 hover:underline font-medium text-sm mb-3 ${selectedBounties.length === 0 ? "invisible" : ""}`}
+        onClick={resetBounties}
+      >
+        Clear selections
+      </button>
+      <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 mb-7">
         {bounties
           .filter(
             (bounty) =>
@@ -50,13 +65,19 @@ const SelectBounties = () => {
       </div>
 
       <Subheading>Bounty board (optional)</Subheading>
-      <Paragraph>
+      <Paragraph className="mb-2">
         If you only want to find the best route for your current bounties, you
         can skip these. Otherwise, you can wait for more bounties to be
         available and select them here. The tool will calculate the best route
         from all possible bounties and let you know which ones to abandon and
         which ones to pick up.
       </Paragraph>
+      <button
+        className={`text-blue-600 hover:underline font-medium text-sm mb-3 ${selectedAvailableBounties.length === 0 ? "invisible" : ""}`}
+        onClick={resetAvailableBounties}
+      >
+        Clear selections
+      </button>
       <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 mb-5">
         {availableBounties
           .filter(

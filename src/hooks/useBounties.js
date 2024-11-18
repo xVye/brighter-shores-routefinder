@@ -52,7 +52,11 @@ const useBounties = (key) => {
     });
   };
 
-  return { bounties, selectedBounties, selectBounty };
+  const reset = () => {
+    setBountyObj(defaultBountyState);
+  };
+
+  return { bounties, selectedBounties, selectBounty, reset };
 };
 
 export default useBounties;
