@@ -13,8 +13,8 @@ calculate the best route from all possible bounties and let you know which ones 
 
 ## Time estimations
 The best routes are calculated by time and not by distance. ETAs are provided for each step of the route and are a 
-great way to gauge the accuracy of the tool. If you find these estimations are off, then please let us know on our 
-Discord server so that we can improve our algorithm.
+great way to gauge the accuracy of the tool. If you find these estimations are off, then please let us know on our
+[Discord](https://discord.gg/fcSYv9GPwJ) server so that we can improve our algorithm.
 
 ## Contributing
 You do not need to be a developer to contribute to the tool. Join our [Discord](https://discord.gg/fcSYv9GPwJ) server to help in various ways:
