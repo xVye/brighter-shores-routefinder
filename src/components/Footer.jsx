@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="py-6 text-sm text-gray-500 border-t">
       <p>RouteFinder for Brighter Shores.</p>
       <p className="pt-1">
-        Find a better route than what the tool suggests?{" "}
+        Find a better route than what the tool suggests, or an inaccurate ETA?{" "}
         <ExternalLink to="https://discord.gg/fcSYv9GPwJ">
           Let us know!
         </ExternalLink>
