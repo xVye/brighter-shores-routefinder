@@ -13,7 +13,7 @@ const Page = ({ title, meta, children }) => {
   }, [title]);
 
   return (
-    <div className="w-full pl-6 py-6">
+    <div className="w-full px-2 xl:pl-6 py-6">
       <h1 id={id} className="text-4xl font-bold text-gray-700 mb-5">
         {title}
       </h1>

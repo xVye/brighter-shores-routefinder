@@ -125,7 +125,7 @@ const RoutePlanner = () => {
       {bountiesToAbandon?.length ? (
         <>
           <Subheading>Abandon</Subheading>
-          <div className="grid grid-cols-3 gap-3 mb-5">
+          <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 mb-5">
             {bountiesToAbandon.map((key) => (
               <Bounty key={key} bountyKey={key} />
             ))}
@@ -136,7 +136,7 @@ const RoutePlanner = () => {
       {bountiesToPickup?.length ? (
         <>
           <Subheading>Pickup</Subheading>
-          <div className="grid grid-cols-3 gap-3 mb-5">
+          <div className="grid xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3 mb-5">
             {bountiesToPickup.map((key) => (
               <Bounty key={key} bountyKey={key} />
             ))}

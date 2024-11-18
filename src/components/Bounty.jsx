@@ -31,13 +31,13 @@ const Bounty = ({ bountyKey, selected, onClick, size = "normal" }) => {
 
   return (
     <div
-      className="w-full border p-4 rounded cursor-pointer hover:text-blue-500 hover:bg-gray-50 block relative"
+      className={`w-full border p-2 rounded block relative ${onClick ? "cursor-pointer hover:text-blue-500 hover:bg-gray-50 select-none" : ""}`}
       onClick={onClick}
     >
       <div className="flex items-center text-right">
         <img
-          width={50}
-          height={50}
+          width={42}
+          height={42}
           src={`https://brightershoreswiki.org/images/${bounty.name.replace(/ /g, "_")}.png`}
           onError={(e) => (e.currentTarget.src = "/unknown.jpg")}
           alt="carrots"

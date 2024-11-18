@@ -32,7 +32,7 @@ const SelectBounties = () => {
         <ExternalLink to="https://discord.gg/fcSYv9GPwJ">Discord</ExternalLink>,
         and we will get them added.
       </Paragraph>
-      <div className="grid grid-cols-3 gap-3 mb-5">
+      <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 mb-5">
         {bounties
           .filter(
             (bounty) =>
@@ -57,7 +57,7 @@ const SelectBounties = () => {
         from all possible bounties and let you know which ones to abandon and
         which ones to pick up.
       </Paragraph>
-      <div className="grid grid-cols-3 gap-3 mb-5">
+      <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 mb-5">
         {availableBounties
           .filter(
             (bounty) =>
