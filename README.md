@@ -50,7 +50,7 @@ algorithm part of the project.
 
 ## Map Nodes
 All the nodes in the graph are stored at `src/algorithm/nodes.json` and are assigned numbers.
-These numbers are referenced on the following map which I have created (15mb image): https://imgur.com/LsrbazW
+These numbers are referenced on the following map which I have created (15mb image): https://i.imgur.com/LsrbazW.jpeg
 
 These numbers are chosen arbitrarily, I have just incremented them as I went along. I use GIMP to modify this image
 when I need to add new nodes, the layers help me keep track of the nodes. If you are interested in the GIMP file, 
