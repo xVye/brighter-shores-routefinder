@@ -2,7 +2,6 @@ import Page from "../components/Page.jsx";
 import Paragraph from "../components/Paragraph.jsx";
 import Subheading from "../components/Subheading.jsx";
 import useSettings from "../hooks/useSettings.js";
-import ExternalLink from "../components/ExternalLink.jsx";
 
 const additionalRooms = [
   {
@@ -76,7 +75,7 @@ const Configuration = () => {
         type="number"
         min="0"
         max="500"
-        className="mb-5 block p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
+        className="mb-5 block p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-lg bg-gray-50 dark:bg-zinc-800 sm:text-md focus:ring-blue-500 focus:border-blue-500"
       />
 
       <Subheading>Detective Level</Subheading>
@@ -94,33 +93,23 @@ const Configuration = () => {
         type="number"
         min="0"
         max="500"
-        className="mb-5 block p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
+        className="mb-5 block p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-lg bg-gray-50 dark:bg-zinc-800 sm:text-md focus:ring-blue-500 focus:border-blue-500"
       />
 
-      <div className="mb-5">
+      <Paragraph className="mb-5 dark:text-zinc-300">
         <div className="font-semibold mb-2">Additional room unlocks:</div>
         <ul className="list-disc ml-5">
           {detectiveLevel < 4 && <li className="mb-2">None.</li>}
           {additionalRooms.map(
-            ({ level, rooms, infoNeeded }) =>
+            ({ level, rooms }) =>
               detectiveLevel >= level && (
                 <li key={level} className="mb-2">
                   {rooms.join(" and ")}{" "}
-                  {infoNeeded && (
-                    <div className="text-sm text-red-500 italic">
-                      Not currently included in routes because more info is
-                      needed. Please contribute via{" "}
-                      <ExternalLink to="https://discord.gg/fcSYv9GPwJ">
-                        Discord
-                      </ExternalLink>
-                      !
-                    </div>
-                  )}
                 </li>
               ),
           )}
         </ul>
-      </div>
+      </Paragraph>
 
       <Subheading>Quests</Subheading>
       <Paragraph>
@@ -139,7 +128,7 @@ const Configuration = () => {
         />
         <label
           htmlFor="default-checkbox"
-          className="ms-2 text-sm font-medium text-gray-900"
+          className="ms-2 text-sm font-medium text-gray-900 dark:text-white"
         >
           Battle of Fortunehold
         </label>

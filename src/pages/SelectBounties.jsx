@@ -31,7 +31,7 @@ const SelectBounties = () => {
       meta="Select from current and available bounties."
     >
       <Subheading>Your bounties</Subheading>
-      <Paragraph className="mb-2">
+      <Paragraph className="mb-2 dark:text-zinc-300">
         Select bounties you currently have (up to 6 total). To see or hide
         relevant bounties, change your merchanting level on the{" "}
         <InternalLink to="/configuration">configuration page</InternalLink>. Not
@@ -42,7 +42,7 @@ const SelectBounties = () => {
         and we will get them added.
       </Paragraph>
       <button
-        className={`text-blue-600 hover:underline font-medium text-sm mb-3 ${selectedBounties.length === 0 ? "invisible" : ""}`}
+        className={`text-blue-600 dark:text-blue-500 hover:underline font-medium text-sm mb-3 ${selectedBounties.length === 0 ? "invisible" : ""}`}
         onClick={resetBounties}
       >
         Clear selections
@@ -65,7 +65,7 @@ const SelectBounties = () => {
       </div>
 
       <Subheading>Bounty board (optional)</Subheading>
-      <Paragraph className="mb-2">
+      <Paragraph className="mb-2 dark:text-zinc-300">
         If you only want to find the best route for your current bounties, you
         can skip these. Otherwise, you can wait for more bounties to be
         available and select them here. The tool will calculate the best route
@@ -73,7 +73,7 @@ const SelectBounties = () => {
         which ones to pick up.
       </Paragraph>
       <button
-        className={`text-blue-600 hover:underline font-medium text-sm mb-3 ${selectedAvailableBounties.length === 0 ? "invisible" : ""}`}
+        className={`text-blue-600 dark:text-blue-500 hover:underline font-medium text-sm mb-3 ${selectedAvailableBounties.length === 0 ? "invisible" : ""}`}
         onClick={resetAvailableBounties}
       >
         Clear selections

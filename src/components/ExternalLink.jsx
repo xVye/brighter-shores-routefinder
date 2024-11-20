@@ -4,7 +4,7 @@ const ExternalLink = ({ to, title, children }) => {
       href={to}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-600 hover:underline font-medium"
+      className="text-blue-600 dark:text-blue-500 hover:underline font-medium"
       title={title}
     >
       {children}
