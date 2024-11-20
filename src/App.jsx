@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import Navigation from "./components/Navigation.jsx";
@@ -9,10 +9,6 @@ const App = () => {
   const { darkMode } = useDarkModeContext();
 
   const [mobileMenuShown, setMobileMenuShown] = useState(false);
-
-  useEffect(() => {
-    console.log("no update?");
-  }, [darkMode]);
 
   return (
     <div className={darkMode ? "dark" : null}>
