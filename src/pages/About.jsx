@@ -4,6 +4,14 @@ import Subheading from "../components/Subheading.jsx";
 import ExternalLink from "../components/ExternalLink.jsx";
 import InternalLink from "../components/InternalLink.jsx";
 
+const DiscordChannel = ({ children }) => {
+  return (
+    <span className="bg-gray-200 dark:bg-zinc-700 px-1 rounded">
+      #{children}
+    </span>
+  );
+};
+
 const About = () => {
   return (
     <Page
@@ -52,27 +60,23 @@ const About = () => {
         server to help in various ways:
         <ul className="list-disc ml-10 mt-2">
           <li className="mb-1">
-            The <span className="bg-gray-200 px-1 rounded">#data-needed</span>{" "}
-            channel includes specific things we need help with, such as item
-            images or information about den raid rooms.
+            The <DiscordChannel>data-needed</DiscordChannel> channel includes
+            specific things we need help with, such as item images or
+            information about den raid rooms.
           </li>
           <li className="mb-1">
             Post any routes which are faster than what the tool suggests in{" "}
-            <span className="bg-gray-200 px-1 rounded">#better-routes</span>
+            <DiscordChannel>better-routes</DiscordChannel>
           </li>
           <li className="mb-1">
-            Post <span className="bg-gray-200 px-1 rounded">#bug-reports</span>
+            Post <DiscordChannel>bug-reports</DiscordChannel>
           </li>
           <li className="mb-1">
-            Post{" "}
-            <span className="bg-gray-200 px-1 rounded">#inaccurate-etas</span>{" "}
+            Post <DiscordChannel>inaccurate-etas</DiscordChannel>{" "}
           </li>
           <li className="mb-1">
             Post any other{" "}
-            <span className="bg-gray-200 px-1 rounded">
-              #ideas-and-suggestions
-            </span>{" "}
-            you have!
+            <DiscordChannel>ideas-and-suggestions</DiscordChannel> you have!
           </li>
         </ul>
         <Paragraph className="mt-5">
