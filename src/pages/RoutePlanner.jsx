@@ -162,8 +162,8 @@ const RoutePlanner = () => {
       {result?.actions?.length ? (
         <div className="relative overflow-x-auto my-7 whitespace-nowrap">
           <table className="w-full text-left rtl:text-right">
-            <thead className="text-gray-900 uppercase">
-              <tr className="border-b border-gray-100">
+            <thead className="text-gray-900 dark:text-zinc-200 uppercase">
+              <tr className="border-b border-gray-100 dark:border-zinc-700">
                 <th scope="col" className="py-3 min-w-[100px]">
                   Action
                 </th>
@@ -182,7 +182,7 @@ const RoutePlanner = () => {
               {result.actions.map((action, index) => (
                 <tr
                   key={index}
-                  className="border-b border-gray-100 last:border-none"
+                  className="border-b border-gray-100 dark:border-zinc-700 last:border-none dark:text-zinc-200"
                 >
                   <td className="py-3 capitalize">{action.type}</td>
                   <td className="py-3">

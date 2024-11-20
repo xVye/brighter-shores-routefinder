@@ -19,7 +19,7 @@ const Bounty = ({ bountyKey, selected, onClick, size = "normal" }) => {
             width={25}
             height={25}
             src={`https://brightershoreswiki.org/images/${bounty.name.replace(/ /g, "_")}.png`}
-            onError={(e) => (e.currentTarget.src = "/unknown.jpg")}
+            onError={(e) => (e.currentTarget.src = "/unknown-transparent.jpg")}
             alt={bounty.name}
             className="rounded-md"
           />
@@ -31,7 +31,7 @@ const Bounty = ({ bountyKey, selected, onClick, size = "normal" }) => {
 
   return (
     <div
-      className={`w-full border p-2 rounded block relative ${onClick ? "cursor-pointer hover:text-blue-500 hover:bg-gray-50 select-none" : ""}`}
+      className={`w-full border dark:border-zinc-700 dark:text-zinc-200 p-2 rounded block relative ${onClick ? "cursor-pointer hover:text-blue-500 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 select-none" : ""}`}
       onClick={onClick}
     >
       <div className="flex items-center text-right">
@@ -39,13 +39,13 @@ const Bounty = ({ bountyKey, selected, onClick, size = "normal" }) => {
           width={42}
           height={42}
           src={`https://brightershoreswiki.org/images/${bounty.name.replace(/ /g, "_")}.png`}
-          onError={(e) => (e.currentTarget.src = "/unknown.jpg")}
+          onError={(e) => (e.currentTarget.src = "/unknown-transparent.png")}
           alt="carrots"
           className="rounded-md"
         />
         <div className="ml-4 text-lg">{bounty.name}</div>
         {selected && (
-          <CheckCircle className="size-7 text-green-500 absolute right-1 top-1" />
+          <CheckCircle className="size-7 text-green-500 dark:text-green-600 absolute right-1 top-1" />
         )}
       </div>
     </div>
